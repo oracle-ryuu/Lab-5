@@ -58,11 +58,13 @@ struct list{
 //struct WordCounts* word_counts_make(char str2[201]);
 
 
-struct WordCounts* makenode(char newword )
+struct WordCounts* makenode(char* newword )
 {
   struct WordCounts* newnode;
-  newnode->count=0;
+ 
   newnode = malloc(sizeof(struct WordCounts));
+  if(newnode==Null){return NULL;}
+  newnode-> count=0;
   newnode->string=newword;
   newnode->count ++;
   newnode-> next =NULL;
