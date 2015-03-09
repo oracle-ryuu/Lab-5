@@ -36,24 +36,65 @@ bool print_word_frequencies(char* path);
 
 /* Opaque data type for a data structure that tracks the number of
    occurrences of strings. */
-/*----------------------struct WordCounts {
+
+struct WordCounts {
+
+  int count;
+  char string [201];
+  struct WordCounts* next; 
 
 
 // TODO: add fields 
-};*/
+};
+
+struct list{
+  struct WordCounts* marker;
+  struct WordCounts* header;
+};
+
 
 /* Allocate a new word count object, or return NULL on memory
    error. */
-//----------------------struct WordCounts* word_counts_make();
+//struct WordCounts* word_counts_make(char str2[201]);
 
+
+struct WordCounts* makenode(char newword [201])
+{
+  struct WordCounts* newnode;
+  newnode = malloc(sizeof(struct WordCounts));
+  newnode->string=newword;
+  newnode->count ++;
+  newnode-> next =NULL;
+
+  return newnode;
+
+};
 /* Free a WordCounts object. */
 //----------------------void word_counts_free(struct WordCounts* wc);
 
 /* If word is already in wc, increment its count by 1. If word is not
    present, add it with a count of 1. Return true on success and false
    on memory error. */
-//------------------------bool word_counts_increment(struct WordCounts* wc, char* word);
+//bool word_counts_increment(struct WordCounts* wc, char* word);
+void checkword(struct list* checkthis, char word [201])
+{
+  checkthis->marker=header;
+  while (checkthis->marker->string)!=NULL)
+    {
+      if (strcmp(checkthis->marker->string, word)!=0){ 
+	checkthis->marker = checkthis->marker->next;
+     }
+      else{checkthis->marker->count++;return;}
 
+    }
+if (checkthis->marker->next == NULL)
+  {
+   checkthis->marker->next == makenode(word);
+  }
+
+
+
+};
 /* If word is in wc, return its frequency count. If word is not in wc,
    return NOT_FOUND. */
 //------------------------int word_counts_lookup(struct WordCounts* wc, char* word);
@@ -78,7 +119,7 @@ bool print_word_frequencies(char* path) {
   /* TODO: finish this function definition */
 
   FILE* f;
-  // struct WordCounts* wc;
+   struct WordCounts* wc;
   char str[MAX_WORD_LENGTH + 1];
 
   f = fopen(path, "r");
@@ -86,18 +127,25 @@ bool print_word_frequencies(char* path) {
     fprintf(stderr, "error: could not open '%s'", path);
     return false;
   }
+
+  fscanf(f, "%s", str);
+  struct list wordcounter;
+  wordcounter.header = makenode(str);
+   wordcounter.marker = header;
   /*
-  wc = word_counts_make();
+//  wc = word_counts_make();
   if (wc == NULL) {
     fprintf(stderr, "error: out of memory");
     fclose(f);
     return false;
   }
   */
+
+
   fprintf(stderr, "processing '%s'...", path);
-  int c;
-  while ((c=fgetc(f))!= EOF ) {
-    fscanf(f, "%d",&c);
+  // int c;
+  while ((fscanf(f, "%s", str)!= EOF )) {
+    
 
     /* if (!word_counts_increment(wc, str)) {
       fprintf(stderr, "\nerror: out of memory");
@@ -119,8 +167,9 @@ bool print_word_frequencies(char* path) {
   return true;
 }
 /*
-struct WordCounts* word_counts_make() {
+struct WordCounts* word_counts_make(char str2[201]) {
   struct WordCounts* it = malloc(sizeof(struct WordCounts));
+  
   if (it == NULL)
     return NULL;
 
@@ -144,4 +193,5 @@ bool word_counts_increment(struct WordCounts* wc, char* word) {
 void word_counts_print(struct WordCounts* wc) {
   // TODO
 }
+
 */
