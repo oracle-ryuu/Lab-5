@@ -44,7 +44,7 @@ struct WordCounts {
   struct WordCounts* next; 
 
 
-// TODO: add fields 
+  // TODO: add fields 
 };
 
 struct list{
@@ -63,9 +63,12 @@ struct WordCounts* makenode(char* newword )
   struct WordCounts* newnode;
  
   newnode = malloc(sizeof(struct WordCounts));
-  if(newnode==Null){return NULL;}
+  if(newnode==NULL){
+
+    fprintf(stderr, "error: out of memory");
+    return NULL;}
   newnode-> count=0;
-  newnode->string=newword;
+  strcpy( newnode->string, newword);
   newnode->count ++;
   newnode-> next =NULL;
 
@@ -78,21 +81,21 @@ struct WordCounts* makenode(char* newword )
 /* If word is already in wc, increment its count by 1. If word is not
    present, add it with a count of 1. Return true on success and false
    on memory error. */
-//bool word_counts_increment(struct WordCounts* wc, char* word);
-void checkword(struct list* checkthis, char word [201])
+//bool word_counts_increment (struct WordCounts* wc, char* word);
+void checkword(struct list* checkthis, char* word)
 {
-  checkthis->marker=header;
-  while (checkthis->marker->string)!=NULL)
+  checkthis->marker=checkthis->header;
+  while (checkthis->marker!=NULL)
     {
       if (strcmp(checkthis->marker->string, word)!=0){ 
 	checkthis->marker = checkthis->marker->next;
-     }
+      }
       else{checkthis->marker->count++;return;}
 
     }
 if (checkthis->marker->next == NULL)
   {
-   checkthis->marker->next == makenode(word);
+    checkthis->marker->next = makenode(word);
   }
 
 
@@ -122,7 +125,7 @@ bool print_word_frequencies(char* path) {
   /* TODO: finish this function definition */
 
   FILE* f;
-   struct WordCounts* wc;
+  struct WordCounts* wc;
   char str[MAX_WORD_LENGTH + 1];
 
   f = fopen(path, "r");
@@ -134,13 +137,13 @@ bool print_word_frequencies(char* path) {
   fscanf(f, "%s", str);
   struct list wordcounter;
   wordcounter.header = makenode(str);
-   wordcounter.marker = header;
+  wordcounter.marker = wordcounter.header;
   /*
-//  wc = word_counts_make();
+  //  wc = word_counts_make();
   if (wc == NULL) {
-    fprintf(stderr, "error: out of memory");
-    fclose(f);
-    return false;
+  fprintf(stderr, "error: out of memory");
+  fclose(f);
+  return false;
   }
   */
 
@@ -151,11 +154,11 @@ bool print_word_frequencies(char* path) {
     
 
     /* if (!word_counts_increment(wc, str)) {
-      fprintf(stderr, "\nerror: out of memory");
-      fclose(f);
-      word_counts_free(wc);
-      return false;
-      }*/
+       fprintf(stderr, "\nerror: out of memory");
+       fclose(f);
+       word_counts_free(wc);
+       return false;
+       }*/
     
   }
 
