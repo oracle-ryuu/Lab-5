@@ -69,7 +69,7 @@ struct WordCounts* makenode(char* newword )
     return NULL;}
   newnode-> count=0;
   strcpy( newnode->string, newword);
-  newnode->count ++;
+  newnode->count++;
   newnode-> next =NULL;
 
   return newnode;
@@ -85,7 +85,7 @@ struct WordCounts* makenode(char* newword )
 void checkword(struct list* checkthis, char* word)
 {
   checkthis->marker=checkthis->header;
-  while (checkthis->marker!=NULL)
+  while (checkthis->marker->next!=NULL)
     {
       if (strcmp(checkthis->marker->string, word)!=0){ 
 	checkthis->marker = checkthis->marker->next;
@@ -108,6 +108,30 @@ if (checkthis->marker->next == NULL)
 /* Print out all the words and counts in wc, using the same format as
    print_word_frequences. */
 //------------------------void word_counts_print(struct WordCounts* wc);
+void printall(struct list* printthis)
+{
+  printthis->marker=printthis->header;
+
+  while(printthis->marker!= NULL){
+
+    printf("word:  ");
+    puts(printthis->marker->string);
+    printf("count: %d", printthis->marker->count);
+    printf("\n\n");
+    printthis->marker=printthis->marker->next;
+  }
+
+}
+
+
+
+
+
+
+
+
+
+
 
 int main(int argc, char** argv) {
   if (argc != 2) {
@@ -138,6 +162,11 @@ bool print_word_frequencies(char* path) {
   struct list wordcounter;
   wordcounter.header = makenode(str);
   wordcounter.marker = wordcounter.header;
+  //  struct list* listpoint;
+  //  listpoint=&wordcounter;
+
+
+
   /*
   //  wc = word_counts_make();
   if (wc == NULL) {
@@ -152,7 +181,7 @@ bool print_word_frequencies(char* path) {
   // int c;
   while ((fscanf(f, "%s", str)!= EOF )) {
     
-
+    checkword(&wordcounter,str);
     /* if (!word_counts_increment(wc, str)) {
        fprintf(stderr, "\nerror: out of memory");
        fclose(f);
@@ -161,7 +190,7 @@ bool print_word_frequencies(char* path) {
        }*/
     
   }
-
+  printall(&wordcounter);
   fclose(f);
 
   fprintf(stderr, "done\n");
